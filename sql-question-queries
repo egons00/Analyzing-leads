@@ -14,6 +14,7 @@ ORDER BY 1,2,3;
 
 SELECT
     country                   					AS country,
+--cast(avg(redirect_count)  AS DEC (10, 2))     AS avarage_redirects_2,----(different way of showcasing)
     round(avg(redirect_count), 2)				AS avg_redirects_per_lead
 FROM(
     SELECT
@@ -24,7 +25,7 @@ FROM(
     GROUP BY 1, 2
     ) b
 GROUP BY 1
-ORDER BY 1 ASC;
+ORDER BY 1;
 
 
 --// 3rd query
@@ -88,7 +89,7 @@ FROM(
 		LEFT JOIN (
 					SELECT	lead_id,
 							sum(revenue)		AS revenue_total
-					FROM "partner_events"
+					FROM partner_events
 					GROUP BY 1
 		) ptnr
 		ON ptnr.lead_id = ld.lead_id
@@ -102,8 +103,7 @@ SELECT	lead_source,
 		avg_revenue_per_redirect_source
 FROM lead_revenue_avg lra
 FULL OUTER JOIN redirect_revenue_avg rra
-ON lead_source = redirect_source
-;
+ON lead_source = redirect_source;
 
 
 
@@ -121,7 +121,7 @@ FROM(
 			revenue,
 			pe.lead_id				AS lead_id,
 			rd_id					AS redir_count
-		FROM "partner_events" pe
+		FROM partner_events pe
 		LEFT JOIN (
 				SELECT	lead_id,
 						COUNT(redirect_id)		AS rd_id
