@@ -1,2 +1,1 @@
-# Jeff-app
-Technical task for Jeff app 
+Analyzing lead data
