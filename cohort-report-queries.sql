@@ -17,11 +17,11 @@ ORDER BY 1
 --// FOR COHORTS REVENUE
 
 SELECT DISTINCT
-	lds.lead_id					AS lead,
-	date::date					AS reg_date,
-	prt_date					AS revenue_date,
-	revenue_day			 		AS revenue,
-	prt_Date - date     		AS diff
+	lds.lead_id							AS lead,
+	date::date							AS reg_date,
+	prt_date							AS revenue_date,
+	revenue_day			 				AS revenue,
+	prt_Date - date     				AS diff
 FROM Leads lds
 LEFT JOIN (
 		SELECT
