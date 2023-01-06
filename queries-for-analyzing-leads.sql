@@ -20,7 +20,7 @@ FROM(
     SELECT
     	lead_id,
         country,
-        COUNT(redirect_id) AS redirect_count
+        COUNT(redirect_id) 						AS redirect_count
     FROM Redirects
     GROUP BY 1, 2
     ) b
@@ -50,20 +50,20 @@ WITH redirect_revenue_avg AS (
 			SELECT
 				redirect_source,
 				lead_id,
-				count(lead_id)						    AS redirect_count,
-				max(revenue_total)						AS rev_max
+				count(lead_id)						    	AS redirect_count,
+				max(revenue_total)					 		AS rev_max
 			FROM(
 
 					SELECT
-						source					AS redirect_source,
-						rd.lead_id				AS lead_id,
+						source								AS redirect_source,
+						rd.lead_id							AS lead_id,
 						redirect_date,
 						redirect_id,
 						revenue_total
 					FROM Redirects rd
 					LEFT JOIN (
 							SELECT	lead_id,
-									sum(revenue)		AS revenue_total
+									sum(revenue)			AS revenue_total
 							FROM partner_events
 							GROUP BY 1
 					) ptnr
@@ -82,13 +82,13 @@ SELECT
 	round(sum(revenue_total)/count(lead_id), 2)		AS avg_revenue_per_lead_source
 FROM(
 		SELECT
-			source					AS lead_source,
-			ld.lead_id				AS lead_id,
+			source									AS lead_source,
+			ld.lead_id								AS lead_id,
 			revenue_total
 		FROM Leads ld
 		LEFT JOIN (
 					SELECT	lead_id,
-							sum(revenue)		AS revenue_total
+							sum(revenue)			AS revenue_total
 					FROM partner_events
 					GROUP BY 1
 		) ptnr
@@ -112,15 +112,15 @@ ON lead_source = redirect_source;
 WITH redirect_revenue AS (
 SELECT
 	partner_id,
-	SUM(revenue)							AS rev_sum,
-	SUM(redir_count)						AS redir_count
+	SUM(revenue)								AS rev_sum,
+	SUM(redir_count)							AS redir_count
 FROM(
 
 		SELECT
 			partner_id,
 			revenue,
-			pe.lead_id				AS lead_id,
-			rd_id					AS redir_count
+			pe.lead_id							AS lead_id,
+			rd_id								AS redir_count
 		FROM partner_events pe
 		LEFT JOIN (
 				SELECT	lead_id,
@@ -136,5 +136,5 @@ GROUP BY 1
 SELECT	partner_id,
 		rev_sum,
 		redir_count,
-		round(rev_sum / redir_count, 2)		AS avg_rev
+		round(rev_sum / redir_count, 2)			AS avg_rev
 FROM redirect_revenue;
